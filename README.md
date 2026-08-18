@@ -79,3 +79,4 @@ under an `"build"` key before shipping — see the electron-builder docs).
   once you have more than a hello-world screen.
 - `electron-builder` config (icons, app id, targets) isn't filled in —
   add a `"build"` key to `apps/desktop/package.json` before shipping.
+"# rn-multiplatform-hello" 
