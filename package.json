@@ -1,0 +1,16 @@
+{
+  "name": "rn-multiplatform-hello",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:mobile": "npm run start --workspace mobile",
+    "dev:desktop": "npm run dev --workspace desktop",
+    "build:desktop": "npm run build --workspace desktop"
+  },
+  "devDependencies": {
+    "turbo": "^2.1.3"
+  }
+}

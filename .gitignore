@@ -1,0 +1,7 @@
+node_modules
+dist
+.expo
+.turbo
+*.log
+apps/desktop/dist
+apps/mobile/.expo
