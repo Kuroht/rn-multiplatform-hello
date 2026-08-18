@@ -1,23 +1,59 @@
-import { defineConfig } from "vite";
+import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 
-const workspaceRoot = path.resolve(__dirname, "../..");
+const projectRoot = __dirname;
+const workspaceRoot = path.resolve(projectRoot, "../..");
+const sharedSrc = path.resolve(workspaceRoot, "packages/shared/src");
+
+function nativewindImportRewrite(): Plugin {
+  return {
+    name: "nativewind-import-rewrite",
+
+    enforce: "pre",
+
+    transform(code, id) {
+      if (!id.startsWith(sharedSrc)) {
+        return null;
+      }
+
+      if (!/\.[cm]?[jt]sx?$/.test(id)) {
+        return null;
+      }
+
+      const transformed = code.replace(
+        /from\s+["']react-native["']/g,
+        'from "react-native-css/react-native"',
+      );
+
+      return transformed === code
+        ? null
+        : {
+            code: transformed,
+            map: null,
+          };
+    },
+  };
+}
 
 export default defineConfig({
-  plugins: [react()],
+  root: projectRoot,
+
+  plugins: [
+    nativewindImportRewrite(),
+    react(),
+  ],
+
   base: "./",
+
   resolve: {
     alias: [
-      // Redirect any "react-native" import (including inside the shared
-      // package) to react-native-web so the same components render in
-      // the Electron renderer (a Chromium web view). Using
-      // require.resolve here avoids bare-specifier resolution quirks.
       {
         find: /^react-native$/,
         replacement: require.resolve("react-native-web"),
       },
     ],
+
     extensions: [
       ".web.tsx",
       ".web.ts",
@@ -29,18 +65,28 @@ export default defineConfig({
       ".js",
     ],
   },
+
   define: {
     __DEV__: JSON.stringify(process.env.NODE_ENV !== "production"),
   },
+
   server: {
     port: 5173,
     strictPort: true,
+
     fs: {
-      // Allow Vite to read the shared package which lives outside apps/desktop
       allow: [workspaceRoot],
     },
   },
+
   optimizeDeps: {
-    include: ["react-native-web"],
+    include: [
+      "react-native-web",
+      "react-native-css",
+    ],
+  },
+
+  css: {
+    postcss: path.resolve(projectRoot, "postcss.config.mjs"),
   },
 });
