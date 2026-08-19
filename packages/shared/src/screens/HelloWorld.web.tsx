@@ -1,3 +1,5 @@
+import { Platform } from "react-native";
+
 const styles = {
   container:
     "flex h-full w-full items-center justify-center bg-slate-950 px-6",
@@ -37,6 +39,8 @@ const styles = {
 };
 
 export function HelloWorld() {
+  const platform = Platform.OS;
+
   return (
     <main className={styles.container}>
       <section className={styles.card}>
@@ -65,7 +69,7 @@ export function HelloWorld() {
           <span className={styles.badgeText}>
             Running on{" "}
             <span className={styles.platform}>
-              Electron
+              {platform}
             </span>
           </span>
         </div>
