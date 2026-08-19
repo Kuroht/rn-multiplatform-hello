@@ -1,19 +1,29 @@
 import "./global.css";
 import React from "react";
+import { useState } from "react";
 import { createRoot } from "react-dom/client";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { HelloWorld } from "shared";
-import type { RootStackParamList } from "shared";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { HelloWorld, MainLayout, Settings } from "shared";
 
-const Stack = createStackNavigator<RootStackParamList>();
+type Page = "Home" | "Settings";
+
+function App() {
+  const [page, setPage] = useState<Page>("Home");
+
+  return (
+    <SafeAreaProvider>
+      <MainLayout
+        activeNavItem={page}
+        onNavItemPress={(item) => setPage(item as Page)}
+      >
+        {page === "Home" ? <HelloWorld /> : <Settings />}
+      </MainLayout>
+    </SafeAreaProvider>
+  );
+}
 
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HelloWorld} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <App />
   </React.StrictMode>,
 );

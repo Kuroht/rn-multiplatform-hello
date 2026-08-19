@@ -1,22 +1,23 @@
 import "./global.css";
+import { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { HelloWorld } from "shared";
-import type { RootStackParamList } from "shared";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { HelloWorld, MainLayout, Settings } from "shared";
 
-const Stack = createStackNavigator<RootStackParamList>();
+type Page = "Home" | "Settings";
 
 export default function App() {
-  return (
-    <>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="Home" component={HelloWorld} />
-        </Stack.Navigator>
-      </NavigationContainer>
+  const [page, setPage] = useState<Page>("Home");
 
+  return (
+    <SafeAreaProvider>
+      <MainLayout
+        activeNavItem={page}
+        onNavItemPress={(item) => setPage(item as Page)}
+      >
+        {page === "Home" ? <HelloWorld /> : <Settings />}
+      </MainLayout>
       <StatusBar style="light" />
-    </>
+    </SafeAreaProvider>
   );
 }
