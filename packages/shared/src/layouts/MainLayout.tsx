@@ -1,7 +1,9 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SideNav } from "./SideNav";
+import { authConfig } from "../config/authConfig";
+import { Login } from "../screens/Login";
 
 type MainLayoutProps = {
   children: ReactNode;
@@ -14,15 +16,22 @@ export function MainLayout({
   activeNavItem,
   onNavItemPress,
 }: MainLayoutProps) {
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   return (
     <SafeAreaView className="flex-1 bg-slate-950">
-      <View className="flex-1 flex-row">
-        <SideNav
-          activeItem={activeNavItem}
-          onItemPress={onNavItemPress}
-        />
-        <View className="flex-1">{children}</View>
-      </View>
+      {!isAuthenticated ? (
+        <Login authConfig={authConfig} onAuthenticated={() => setIsAuthenticated(true)} />
+      ) : (
+        <View className="flex-1 flex-row">
+          <SideNav
+            activeItem={activeNavItem}
+            onItemPress={onNavItemPress}
+          />
+          <View className="flex-1">{children}</View>
+        </View>
+      )}
     </SafeAreaView>
   );
 }
