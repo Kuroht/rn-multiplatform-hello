@@ -48,7 +48,7 @@ npm run dev:mobile
 > beyond quick testing, a [development build](https://docs.expo.dev/develop/development-builds/introduction/)
 > is the more durable fix, since it always matches your project's SDK.
 
-**Desktop (Electron)** — starts Vite on `:5173` and launches Electron
+**Desktop (Electron)** — starts Vite on `:5174` and launches Electron
 pointed at it, with hot reload:
 
 ```bash

@@ -1,3 +1,20 @@
 @import "tailwindcss";
 
 @source "../../../packages/shared/src";
+
+html,
+body {
+	height: 100%;
+	margin: 0;
+}
+
+body {
+	overflow: hidden;
+}
+
+#root {
+	display: flex;
+	flex: 1;
+	min-height: 0;
+	width: 100%;
+}

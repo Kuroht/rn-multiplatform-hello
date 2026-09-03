@@ -4,13 +4,17 @@ import {
   Text,
   View,
 } from "react-native";
+import { useState } from "react";
 import {
   NavigationContainer,
   type NavigationContainerRef,
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { enableScreens } from "react-native-screens";
+import { type TokenResponse } from "../auth/auth";
+import { authConfig } from "../config/authConfig";
 import { HelloWorld } from "../HelloWorld";
+import { Login } from "../screens/Login";
 import type { RootStackParamList } from "./routes";
 
 enableScreens();
@@ -41,11 +45,18 @@ export function AppNavigator({
 }: {
   navigationRef?: React.RefObject<NavigationContainerRef<RootStackParamList> | null>;
 }) {
+  const [tokens, setTokens] = useState<TokenResponse | null>(null);
+
+  if (!tokens?.access_token) {
+    return <Login authConfig={authConfig} onAuthenticated={setTokens} />;
+  }
+
   return (
     <NavigationContainer ref={navigationRef} linking={linking}>
       <Stack.Navigator
         initialRouteName="Home"
         screenOptions={{
+          animation: "fade",
           headerStyle: { backgroundColor: "#020617" },
           headerTintColor: "#f8fafc",
           headerTitleStyle: { fontWeight: "700" },
