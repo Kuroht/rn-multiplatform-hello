@@ -1,11 +1,11 @@
 import "./global.css";
 import { StatusBar } from "expo-status-bar";
-import { HelloWorld } from "shared";
+import { AppNavigator } from "shared";
 
 export default function App() {
   return (
     <>
-      <HelloWorld />
+      <AppNavigator />
       <StatusBar style="light" />
     </>
   );
