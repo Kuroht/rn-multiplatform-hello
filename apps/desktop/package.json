@@ -9,8 +9,11 @@
     "build": "npm run build:renderer && electron-builder"
   },
   "dependencies": {
+    "@react-navigation/native": "^7.3.18",
+    "@react-navigation/native-stack": "^7.18.10",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "react-native-screens": "^4.27.0",
     "react-native-web": "^0.21.2",
     "shared": "*"
   },
